@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onjira | Full Stack Developer Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: rgba(22, 27, 34, 0.7);
+            --neon-green: #39d353;
+            --neon-green-dim: #0e4429;
+            --text-main: #e6edf3;
+            --text-dim: #8b949e;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Kanit', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 50%, #161b22 0%, #0d1117 100%);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: fit-content;
+        }
+
+        .profile-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            border: 3px solid var(--neon-green);
+            object-fit: cover;
+            background: #21262d;
+        }
+
+        .profile-info h1 { font-size: 1.5rem; margin-top: 1rem; }
+        .profile-info .title { color: var(--neon-green); font-weight: 600; font-size: 1rem; }
+        .profile-info .bio { font-size: 0.9rem; color: var(--text-dim); margin-top: 10px; }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover { color: var(--neon-green); transform: translateY(-3px); }
+
+        /* --- Main Content --- */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Typing Effect Area */
+        .readme-card h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+        .typing-text {
+            color: var(--neon-green);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            min-height: 1.5em;
+        }
+
+        .tech-stack {
+            list-style: none;
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-item {
+            background: rgba(57, 211, 83, 0.1);
+            border: 1px solid var(--neon-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Project Grid */
+        .section-title { margin-bottom: 1rem; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .project-card {
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover { transform: scale(1.02); border-color: var(--neon-green); }
+        .project-card h3 { color: var(--neon-green); margin-bottom: 0.5rem; }
+        .project-card p { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem; }
+        .project-tags { font-size: 0.75rem; font-weight: bold; color: var(--text-main); }
+
+        /* Contribution Graph */
+        .graph-container {
+            overflow-x: auto;
+        }
+        .contribution-graph {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 4px;
+            width: 100%;
+            min-width: 400px;
+        }
+
+        .square {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-color: var(--neon-green-dim);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .square:hover { border: 1px solid #fff; }
+        .level-1 { background-color: #0e4429; }
+        .level-2 { background-color: #006d32; }
+        .level-3 { background-color: #26a641; }
+        .level-4 { background-color: #39d353; }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cursor blinking */
+        .cursor { animation: blink 0.7s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="glass-card">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Onjira" alt="Profile" class="profile-img">
+                <div class="profile-info">
+                    <h1>อรจิรา</h1>
+                    <p class="title">Full Stack Developer</p>
+                    <p class="bio">เป็นคนชอบเล่นเกม นอนได้ทุกที่ทุกเวลา และหลงรักการสร้างสรรค์ด้วย Code ✨</p>
+                    
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section class="glass-card readme-card">
+                <h2>สวัสดี! ผม อรจิรา 👋</h2>
+                <div class="typing-container">
+                    <span class="typing-text" id="typewriter"></span><span class="cursor">|</span>
+                </div>
+                
+                <ul class="tech-stack">
+                    <li class="tech-item">🚀 React.js</li>
+                    <li class="tech-item">🎨 CSS Glassmorphism</li>
+                    <li class="tech-item">🛠️ Node.js</li>
+                    <li class="tech-item">🎮 Gaming</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="section-title"><i class="fas fa-star"></i> Pinned Projects</h2>
+                <div class="project-grid">
+                    <div class="glass-card project-card">
+                        <div>
+                            <h3>Project Alpha</h3>
+                            <p>แพลตฟอร์มจัดการ Task งานส่วนตัวที่ใช้ระบบ Drag & Drop</p>
+                        </div>
+                        <div class="project-tags">● HTML/CSS ● JavaScript</div>
+                    </div>
+                    <div class="glass-card project-card">
+                        <div>
+                            <h3>Game Database</h3>
+                            <p>เว็บไซต์รวบรวมข้อมูลเกมยอดนิยม พร้อมระบบรีวิว</p>
+                        </div>
+                        <div class="project-tags">● Vanilla JS ● Web API</div>
+                    </div>
+                    <div class="glass-card project-card">
+                        <div>
+                            <h3>Sleep Tracker</h3>
+                            <p>แอปคำนวณเวลานอนที่เหมาะสม (สำหรับคนชอบนอน)</p>
+                        </div>
+                        <div class="project-tags">● CSS Grid ● Logic</div>
+                    </div>
+                    <div class="glass-card project-card">
+                        <div>
+                            <h3>Portfolio V1</h3>
+                            <p>หน้าเว็บโปรไฟล์แรกที่เน้นความเรียบง่ายและสะอาดตา</p>
+                        </div>
+                        <div class="project-tags">● HTML ● Design</div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Contributions</h2>
+                <div class="glass-card graph-container">
+                    <div class="contribution-graph" id="contribution-graph">
+                        </div>
+                    <p style="font-size: 0.7rem; color: var(--text-dim); margin-top: 10px;">Less <span style="color: var(--neon-green-dim)">■</span><span style="color: var(--neon-green)">■</span> More</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // --- Typing Effect ---
+        const text = "ผมชอบเขียนโค้ดและเรียนรู้เทคโนโลยีใหม่ๆ (ถ้าไม่ง่วงซะก่อน)...";
+        let index = 0;
+        const speed = 100;
+
+        function typeWriter() {
+            if (index < text.length) {
+                document.getElementById("typewriter").innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        // --- Mockup Contribution Graph ---
+        function generateGraph() {
+            const graph = document.getElementById('contribution-graph');
+            const totalSquares = 96; // 4 rows x 24 columns approx
+            
+            for (let i = 0; i < totalSquares; i++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                
+                // Randomly assign levels for mockup look
+                const rand = Math.random();
+                if (rand > 0.8) square.classList.add('level-4');
+                else if (rand > 0.6) square.classList.add('level-3');
+                else if (rand > 0.4) square.classList.add('level-2');
+                else if (rand > 0.2) square.classList.add('level-1');
+                
+                graph.appendChild(square);
+            }
+        }
+
+        // Initialize
+        window.onload = () => {
+            typeWriter();
+            generateGraph();
+        };
+    </script>
+</body>
+</html>
