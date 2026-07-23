@@ -1,0 +1,129 @@
+--สำรวจรายชื่อตารางใน database
+SELECT *
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_TYPE = 'BASE TABLE';
+--สำรวจโครงสร้างตาราง
+EXEC sp_help 'employees'
+
+DROP TABLE dbo.Categories;
+--คำสั่ง Select เบื้องต้น (query data)
+--ต้องการข้อมูลสินค้า
+SELECT *
+FROM dbo.Products;
+--ต้องการรหัสสินค้า ชื่อสินค้า ราคา
+SELECT
+    ProductID,
+    ProductName,
+    UnitPrice
+FROM dbo.Products;
+--ต้องการชื่อสินค้า ราคา
+--Alias Name = เรียกง่ายๆว่าชื่อเล่น
+SELECT
+    ProductID AS รหัส,
+    ProductName AS ชื่อสินค้า,
+    UnitPrice AS ราคา
+FROM dbo.Products;
+
+SELECT ProductID  รหัส,
+    ProductName  ชื่อสินค้า,
+    UnitPrice  ราคา
+FROM dbo.Products;
+--ใช้ Distinct สำหรับกำจัดข้อมูลที่ซ้ำกัน
+SELECT Distinct Position from Employees
+--ใช้ Top(n) สำหรับแสดงข้อมูล n รายการ(โดยปกติจะใช้ร่วมกับการเรียงลำดับ)
+SELECT top(6)
+    ProductID,
+    ProductName,
+    UnitPrice
+FROM dbo.Products;
+--ปรับปรุงราคา"ดินสอ"เป็นราคาใหม่ 17 บาท
+UPDATE Products
+SET UnitPrice = 17, UnitsInStock = 100
+WHERE ProductName = 'ดินสอ'
+--หลังจากรันโค้ดแล้วดุข้อมูลว่าเปลี่ยนไปหรือไม่
+SELECT * from Products
+
+UPDATE dbo.Products
+SET UnitPrice = UnitPrice * 1.05;
+SELECT * from Products
+--ปรับปรุงจำนวนคงเหลือของน้ำส้มเพิ่มจากเดิมอีก100ชิ้น
+UPDATE Products
+SET  UnitsInStock = UnitsInStock+100
+WHERE ProductName = 'น้ำส้ม'
+SELECT * from Products
+--ปรับปรุงราคาแชมพู ลดรา 5 บาท
+UPDATE Products
+SET  UnitPrice = UnitPrice -5
+WHERE ProductName = 'แชมพู'
+SELECT * from Products
+
+DELETE from dbo.Products
+WHERE ProductName ='ดินสอ'
+--การใช้ whereใน คำสั่ง select
+--ข้อมูลที่มีสินค้าราคาน้อยกว่า 20
+
+SELECT * from Products
+WHERE UnitPrice < 20;
+
+--ชื่อ นามสกุล พนักงาน ที่มีตำแหน่ง 'sale Manager
+SELECT firstname, lastname
+from Employees
+where position = 'Sale manager'
+
+--รหัส ชื่อสินค้า ที่เลิกจำหน่ายแล้ว(discontinue =1 )
+SELECT ProductID, ProductName
+from Products
+where discontinued =1
+
+SELECT * from dbo.Products where UnitPrice >= 10 AND UnitsInStock < 100
+SELECT * from dbo.Products where CategoryID = 2 OR CategoryID = 4
+SELECT * from dbo.Products where NOT Discontinued =1
+
+--ต้องการข้อมูลสินค้าที่มีจำนวนคงเหลือ 300-500 ชิ้น
+SELECT * from Products
+where UnitsInStock between 300 AND 500
+SELECT * from Products
+where CategoryID IN (1,2,4);
+
+--การใช้เงื่อนไข wilcard %
+--ต้องการข้อมูลพนักงานที่ขึ้นต้นด้วย ก
+SELECT * from Employees
+where fristname Like 'ก%'
+--ต้องการข้อมูลพนักงานที่มีนามสกุลลงท้ายด้วย "คำ"
+SELECT * from Employees
+where lastname like 'คำ'
+--เตรียมข้อมูลใช้คำสั่ง is Null
+insert into Employees(FirstName,UserName,Password)
+values ('ไอซ์','ice','1234'),('บาส','bas','1234')
+--ข้อมูลพนักงานที่ไม่ทราบนามสกุล
+SELECT * from dbo.Employees
+where LastName IS NULL or LastName = ''
+--บปรุงข้อมูลทดสอบช่องว่าง
+update Employees set LastName = ''
+where FirstName = 'บาส'
+--ปัญหาเบื้องต้นจากค่าNull คือ ไปรวมกับใครก้เป็น Null ไปหมด
+ SELECT Firstname+' '+LastName as ชื่อนักงาน
+ from Employees
+
+ --ต้องการข้อมูลใบเสร็จที่ขายสินค้าก่อนวันที่ 10 ก.พ. 2013
+ SELECT * from Receipts
+ where ReceiptDate < '2013-02-10'
+ --บางกรณีใช้ Function Year()หรือ Month() ร่วมกับเงื่อนไขได้
+ --ต้องการข้อมูลใบเสร็จที่ขายสินค้าในเดือนกุมภาพันธ์ ปี 2013
+ SELECT * from Receipts
+ where Year(ReceiptDate)= 2013
+ and Month(ReceiptDate)=02
+
+ SELECT * from dbo.Products
+ where UnitPrice between 10 and 20
+
+ SELECT * from dbo.Products
+ where CategoryID IN (1,2,4)
+
+ --ต้องการข้อมูลใบเสร็จ อันใหม่ที่สุดขี้นก่อน
+
+SELECT * from Receipts
+order by ReceiptDate desc
+
+
+
